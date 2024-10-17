@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "target": "ES2021",
+        "module": "ES6",
+        "checkJs": true,
+        "lib": [
+            "ES2021",
+            "DOM.Iterable",
+            "DOM"
+        ],
+        "baseUrl": "./",
+        "paths": {
+            "@src/*": [
+                "src/*"
+            ]            
+        }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
