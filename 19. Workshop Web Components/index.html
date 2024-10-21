@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web components</title>    
+</head>
+
+<body>
+    <script>
+        // Extending native HTML element
+        class FancyButton extends HTMLButtonElement {
+            constructor() {
+                super();
+
+                this.style.color = "red";
+                this.textContent = "Fancy button";
+                this.addEventListener("click", () => console.log("Fansy button is clicked"));
+            }
+        }
+
+        window.customElements.define("fansy-button", FancyButton, { extends: 'button' });
+
+
+        // Creating custom HTML element
+        class MyButton extends HTMLElement {
+            constructor() {
+                super(); 
+            }
+            
+            connectedCallback() { 
+                this.createShadowTemplate();
+            }
+
+            createShadowTemplate() {
+                const root = this.attachShadow({mode:"open"});
+                debugger
+                
+                const button = document.createElement("button");
+                button.classList.add("my-button");
+                button.textContent = this.getAttribute("btn-name");
+                button.addEventListener("click", () => {
+                    console.log("My button is clicked");                    
+                });
+
+                
+                const style = document.createElement('style');
+                style.textContent = `
+                    .my-button {
+                        font-size: 20px;
+                        color: aquamarine;
+                        display: inline-flex;
+                    }
+                `;
+                
+                root.appendChild(style);
+                root.appendChild(button);
+            }
+        }
+
+        window.customElements.define("my-button", MyButton);
+
+        const myButton1 = document.createElement("my-button");
+        myButton1.setAttribute("btn-name", "My button 1");
+
+        let body = document.querySelector('body');        
+        body.appendChild(myButton1);        
+
+    </script>
+
+    
+
+    <button id="ordinary" onclick="(() => console.log('Ordinary button is clicked'))()">Ordinary button</button>
+    <button id="fansy" is="fansy-button"></button>
+    <my-button btn-name="My button 2"></my-button>
+
+
+</body>
+
+</html>
